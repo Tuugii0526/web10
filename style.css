@@ -1,0 +1,71 @@
+/* Only what Bootstrap does not provide. */
+
+/* Brand colour as a CSS variable (darker in light mode for contrast). */
+:root {
+  --brand: #116329;
+  --brand-hover: #0d4f21;
+  --brand-contrast: #fff;
+}
+[data-bs-theme="dark"] {
+  --brand: #3fb950;
+  --brand-hover: #56d364;
+  --brand-contrast: #0b0f14;
+  --bs-body-bg: #0b0f14;
+  --bs-tertiary-bg: #0f151d;
+  --bs-border-color: #1f2a37;
+}
+
+body { font-family: var(--bs-font-monospace); font-size: 0.95rem; }
+kbd { padding: 0; color: var(--brand); background: none; font-weight: 700; font-size: inherit; }
+mark { background: #f2cc60; color: #1b1f24; }
+
+/* Task 4: .btn-brand built on Bootstrap's own button variables. */
+.btn-brand {
+  --bs-btn-color: var(--brand-contrast);
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-color: var(--brand-contrast);
+  --bs-btn-hover-bg: var(--brand-hover);
+  --bs-btn-hover-border-color: var(--brand-hover);
+  --bs-btn-active-color: var(--brand-contrast);
+  --bs-btn-active-bg: var(--brand-hover);
+  --bs-btn-active-border-color: var(--brand-hover);
+  --bs-btn-focus-shadow-rgb: 63, 185, 80;
+}
+.bg-brand { background-color: var(--brand) !important; }
+.border-brand { border-color: var(--brand) !important; }
+
+/* Flip card — Bootstrap has no 3D-transform utilities, so this is custom. */
+.flip-card { perspective: 900px; cursor: pointer; border-radius: var(--bs-border-radius); }
+.flip-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.flip-inner {
+  display: grid; height: 100%; min-height: 160px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.flip-card:hover .flip-inner,
+.flip-card:focus-within .flip-inner { transform: rotateY(180deg); }
+.face {
+  grid-area: 1 / 1; justify-content: center;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.face-back {
+  transform: rotateY(180deg);
+  background: var(--brand); color: var(--brand-contrast); border-color: var(--brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-inner { transition: none; }
+}
+
+/* Photo flip cards (#photos, #travel): image on the front, text on the back. */
+.photo-card .flip-inner { aspect-ratio: 4 / 3; min-height: 0; }
+.photo-card .face-front { position: relative; overflow: hidden; padding: 0; }
+.photo-card .face-front img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.photo-caption {
+  position: absolute; inset: auto 0 0 0; padding: .5rem .75rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .75)); color: #fff; font-weight: 700;
+}
+.photo-card .face-back { overflow: auto; }
+.photo-credit { display: block; margin-top: .5rem; opacity: .85; }
+.photo-credit a { color: inherit; }
